@@ -1,6 +1,5 @@
 package kr.co.ezinfotech.ezcloud.service.impl;
 
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -153,6 +152,14 @@ public class PDServiceImpl implements PDService{
 	}
 	
 	@Override
+	public long getTotalCountByKeyValue(String key, String value) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(key).regex(value));
+		
+		return mongoTemplate.count(query, PDDomain.class);
+	}
+	
+	@Override
 	public List<PDDomain> findByDateTerm(String sdate, String edate, String page) {
 		Query query = new Query();
 		final Pageable pageableRequest = new PageRequest(Integer.parseInt(page), 10);
@@ -160,5 +167,13 @@ public class PDServiceImpl implements PDService{
 		query.with(pageableRequest);
 		
 		return mongoTemplate.find(query, PDDomain.class);
+	}
+	
+	@Override
+	public long getTotalCountByTerm(String sdate, String edate) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("indate").lt(edate).gt(sdate));
+		
+		return mongoTemplate.count(query, PDDomain.class);
 	}
 }

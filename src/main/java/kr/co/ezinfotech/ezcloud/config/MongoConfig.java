@@ -33,7 +33,7 @@ public class MongoConfig extends AbstractMongoConfiguration{
 	@Override
 	public Mongo mongo() throws Exception {
 		MongoCredential credential = MongoCredential.createCredential(userName, database, password.toCharArray());
-		return new MongoClient(new ServerAddress("localhost", 27017), Arrays.asList(credential));
+		return new MongoClient(new ServerAddress("192.168.66.30", 27017), Arrays.asList(credential));
 	}
 	
 	public @Bean MongoTemplate mongoTemplate() throws Exception{ 

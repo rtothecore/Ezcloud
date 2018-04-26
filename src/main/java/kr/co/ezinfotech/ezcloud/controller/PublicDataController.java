@@ -90,9 +90,19 @@ public class PublicDataController {
 		return pdService.findByKeyValue(key, value, page);
 	}
 	
+	@GetMapping("/pd/key/{key}/{value}/tt")
+	public long getTotalCountByKeyValue(@PathVariable("key") String key, @PathVariable("value") String value) {
+		return pdService.getTotalCountByKeyValue(key, value);
+	}
+	
 	@GetMapping("/pd/term/{sdate}/{edate}/{page}")
 	public List<PDDomain> findByDateTerm(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate, @PathVariable("page") String page) {
 		logger.info("sdate : " + sdate + ", edate : " + edate + ", page : " + page);
 		return pdService.findByDateTerm(sdate, edate, page);
+	}
+	
+	@GetMapping("/pd/term/{sdate}/{edate}/tt")
+	public long getTotalCountByTerm(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate) {
+		return pdService.getTotalCountByTerm(sdate, edate);
 	}
 }

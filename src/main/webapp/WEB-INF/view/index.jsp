@@ -192,14 +192,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		  <div class="w3-container w3-teal">
 		    <h5>DB INFO</h5>
 		  </div>
-		  <div class="w3-container w3-text-teal"><h6>Parking</h6></div>
+		  <div class="w3-container w3-text-teal"><h6>---</h6></div>
 		  <ul class="w3-ul">
 		    <li>
-		      <p>Collection count : 3</p>
-		      <p>Collection size : 104kb</p>
-		      <p>Data size : 120kb</p>
-		      <p>Storage size : 200kb</p>
-		      <p>Indexes : 3</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
 		    </li>
 		  </ul>
 		  <div class="w3-container w3-teal w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
@@ -212,14 +212,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		  <div class="w3-container w3-orange">
 		    <h5>DB INFO</h5>
 		  </div>
-		  <div class="w3-container w3-text-orange"><h6>Parking</h6></div>
+		  <div class="w3-container w3-text-orange"><h6>---</h6></div>
 		  <ul class="w3-ul">
 		    <li>
-		      <p>Collection count : 3</p>
-		      <p>Collection size : 104kb</p>
-		      <p>Data size : 120kb</p>
-		      <p>Storage size : 200kb</p>
-		      <p>Indexes : 3</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
 		    </li>
 		  </ul>
 		  <div class="w3-container w3-orange w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
@@ -232,14 +232,14 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		  <div class="w3-container w3-grey">
 		    <h5>DB INFO</h5>
 		  </div>
-		  <div class="w3-container w3-text-grey"><h6>Parking</h6></div>
+		  <div class="w3-container w3-text-grey"><h6>---</h6></div>
 		  <ul class="w3-ul">
 		    <li>
-		      <p>Collection count : 3</p>
-		      <p>Collection size : 104kb</p>
-		      <p>Data size : 120kb</p>
-		      <p>Storage size : 200kb</p>
-		      <p>Indexes : 3</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
+		      <p>---</p>
 		    </li>
 		  </ul>
 		  <div class="w3-container w3-grey w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
@@ -297,31 +297,38 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 				  -->
 				  </select>
 				  &nbsp;&nbsp;검색어설정 : <input id="searchText" type="text" style="width:100px;height:30px;" onkeypress="if(event.keyCode==13) {goMongoSearch(); return false;}">
-				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-ripple w3-blue w3-padding-small w3-right" style="width:100px;height:36px;" onClick="goMongoSearch()">검색</button>
+				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-ripple w3-blue w3-padding-small" style="width:100px;height:36px;" onClick="goMongoSearch()">검색</button>
+				  <button id="btnShowMode" class="w3-btn w3-ripple w3-amber w3-padding-small w3-right" style="width:100px;height:36px;" onClick="switchShowMode()">그래프</button>
 		       </h6>
 		  </div>
 		  <!-- <div class="w3-container w3-text-cyan"><h4>parkingZone</h4><h4>pubdata</h4><h4>pubdata2</h4></div> -->
-		  <ul class="w3-ul">
-		    <li id="docList">
-		    <!-- 
-		      <p>Document1</p>
-		      <p>Document2</p>
-		      <p>Document3</p>
-		      <p>Document4</p>
-		      <p>Document5</p>
-		      <p>Document6</p>
-		      <p>Document7</p>
-		      <p>Document8</p>
-			  <p>Document9</p>
-			  <p>Document10</p>
-			 -->
-		    </li>
-		  </ul>
-		  <div class="w3-container w3-cyan w3-xlarge">
-		  	<span class="w3-left"><button class="w3-btn w3-ripple w3-blue w3-padding-small w3-right" style="width:100px;height:30px;font-size:18px;" onClick="goPrevSearch()">Prev</button></span>
-		  	<span class="w3-right"><button class="w3-btn w3-ripple w3-blue w3-padding-small w3-right" style="width:100px;height:30px;font-size:18px;" onClick="goNextSearch()">Next</button></span>
+		  <!-- //////////////////////////////////////////// FOR LIST ///////////////////////////////////////////////////////////// -->
+		  <div id="divForList">
+		  	  <table id="docList" class="w3-table w3-bordered w3-striped w3-border test w3-hoverable"></table>
+		  	  <!-- 
+			  <ul class="w3-ul">
+			    <li id="docList">
+			    </li>
+			  </ul>
+			   -->
+			  <div class="w3-container w3-cyan w3-xlarge w3-center">
+			  	<span class="w3-left"><button class="w3-btn w3-ripple w3-blue w3-padding-small w3-right" style="width:100px;height:30px;font-size:18px;" onClick="goPrevSearch()">Prev</button></span>
+			  	<span id="currentPage" style="font-size:20px"><!-- 총20페이지  --></span>
+			  	<span class="w3-right"><button class="w3-btn w3-ripple w3-blue w3-padding-small w3-right" style="width:100px;height:30px;font-size:18px;" onClick="goNextSearch()">Next</button></span>
+			  </div>
 		  </div>
 		  <!-- <div class="w3-container w3-cyan w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div> -->
+		  <!-- //////////////////////////////////////////// FOR LIST ///////////////////////////////////////////////////////////// -->
+		  
+		  <!-- //////////////////////////////////////////// FOR GRAPH ///////////////////////////////////////////////////////////// -->
+		  <div id="divForGraph" style="display:none">
+		  	  <hr/>
+			  <div id="chartContainer7" style="height: 300px; max-width: 950px; margin: 0px auto;"></div>
+			  <hr/>
+			  <div class="w3-container w3-cyan w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
+		  </div>
+		  <!-- ///////////////////////////////////////////// FOR GRAPH //////////////////////////////////////////////////////////// -->
+		  
 		</div>
       </div>
       
@@ -397,6 +404,23 @@ var currentPage = 0;
 var currentDBPage = 0;
 var searchModeVal = 0; // 0: term search, 1: key search
 var currentSelectedColl = "";
+var showMode = 0; // 0: list, 1: graph
+var chart7 = null;
+var totalDBPage = 0;
+
+function switchShowMode() {
+	if(0 == showMode) {	// show list
+		$('#divForList').css("display", "none");
+		$('#divForGraph').css("display", "block");
+		$('#btnShowMode').html("리스트");
+		showMode = 1;
+	} else {			// show graph
+		$('#divForList').css("display", "block");
+		$('#divForGraph').css("display", "none");
+		$('#btnShowMode').html("그래프");
+		showMode = 0;
+	}
+}
 
 function prevPage() {
 	if(0 == currentPage) {
@@ -623,6 +647,34 @@ $(function() {
 	});
 	chart6.render();
 	
+	chart7 = new CanvasJS.Chart("chartContainer7", {
+		width:950,
+		height:300,
+		animationEnabled: true,
+		theme: "light2",
+		title:{
+			text: "기간별 주차율 예측 데이터"
+		},
+		axisY:{
+			includeZero: false
+		},
+		data: [{        
+			type: "line",
+			showInLegend: true,
+			legendText: "온도",
+			dataPoints: [
+			]
+		},
+		{        
+			type: "line",
+			showInLegend: true,
+			legendText: "습도",
+			dataPoints: [
+			]
+		}]
+	});
+	chart7.render();
+	
 	///////////// set canvasjs style ///////////////////
 	$('.canvasjs-chart-canvas').css("box-shadow", "1px 1px 1px #000");
 	
@@ -714,13 +766,118 @@ function goPrevSearch() {
 		currentDBPage = currentDBPage - 1;
 	}
 	
+	$('#currentPage').html((currentDBPage + 1) + "/" + totalDBPage);
 	goMongoSearch();
 }
 
 function goNextSearch() {
-	currentDBPage = currentDBPage + 1;
+	if(totalDBPage == currentDBPage + 1) {
+		currentDBPage = currentDBPage;
+	} else {
+		currentDBPage = currentDBPage + 1;	
+	}
 	
+	$('#currentPage').html((currentDBPage + 1) + "/" + totalDBPage);
 	goMongoSearch();
+}
+
+function resetChart7() {
+	chart7.destroy();
+	chart7 = new CanvasJS.Chart("chartContainer7", {
+		width:950,
+		height:300,
+		animationEnabled: true,
+		theme: "light2",
+		title:{
+			text: "기간별 주차율 예측 데이터"
+		},
+		axisY:{
+			includeZero: false
+		},
+		data: [{        
+			type: "line",
+			showInLegend: true,
+			legendText: "온도",
+			dataPoints: [
+			]
+		},
+		{        
+			type: "line", 
+			showInLegend: true,
+			legendText: "습도",
+			dataPoints: [
+			]
+		}]
+	});
+
+	///////////// set canvasjs style ///////////////////
+	$('.canvasjs-chart-canvas').css("box-shadow", "1px 1px 1px #000");
+}
+
+function getPZTermTotalCount(sdateVal, edateVal) {
+	var totalCount = 0;
+		
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pz/term/" + sdateVal + "/" + edateVal + "/tt" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	console.log("SUCCESS : ", data);
+        	totalCount = data;
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+	
+	return totalCount;
+}
+
+function getPDTermTotalCount(sdateVal, edateVal) {
+	var totalCount = 0;
+	
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pd/term/" + sdateVal + "/" + edateVal + "/tt" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	console.log("SUCCESS : ", data);
+        	totalCount = data;
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+	
+	return totalCount;
+}
+
+function setPageByTerm(dbName, sdateVal, edateVal) {
+	var totalC = 0;
+	switch(dbName) {
+		case 'pz' :
+			totalC = getPZTermTotalCount(sdateVal, edateVal);
+			break;
+		case 'pd' :
+			totalC = getPDTermTotalCount(sdateVal, edateVal);
+			break;
+		default :
+			break;
+	}
+	
+	if(10 > totalC) {
+		totalDBPage = 1;	
+	} else {
+		totalDBPage = Math.round(totalC / 10);	
+	}
+	
+	$('#currentPage').html((currentDBPage + 1) + "/" + totalDBPage);
 }
 
 function searchByTerm() {
@@ -759,23 +916,70 @@ function searchByTerm() {
             
             switch(currentSelectedColl) {
 	            case 'parkingZone' :
-	                var tmpHTML = "";
-	                for(var i = 0; i < data.length; i++) {
-	                	tmpHTML += "<p>" + data[i].no + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].name + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].addr_road + 
-	                			   "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].division + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].fee_info + 
-	                			   "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].op_date + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].type + "</p>";
-	                }
-	                
-	                $('#docList').append(tmpHTML);
+	            	var tmpHTML = "<tr class='w3-green'>" +
+									"<th>관리번호</th>" +
+					  				"<th>주차장명</th>" +
+					  				"<th>도로명주소</th>" +
+					  				"<th>구분</th>" +
+					  				"<th>요금정보</th>" +
+					  				"<th>운영요일</th>" +
+					  				"<th>유형</th>" +
+								   "</tr>";
+				    for(var i = 0; i < data.length; i++) {
+				    	tmpHTML += "<tr>" +
+				    				 "<td>" + data[i].no + "</td>" +
+				    				 "<td>" + data[i].name + "</td>" +
+				    				 "<td>" + data[i].addr_road + "</td>" +
+				    				 "<td>" + data[i].division + "</td>" +
+				    				 "<td>" + data[i].fee_info + "</td>" +
+				    				 "<td>" + data[i].op_date + "</td>" +
+				    				 "<td>" + data[i].type + "</td>" +
+				    			   "</tr>";
+				    }
+				    $('#docList').append(tmpHTML);
+				    
+				    setPageByTerm("pz", sDateTerm, eDateTerm);
 	            	break;
 	            case 'publicData' :
-	            	var tmpHTML = "";
-	                for(var i = 0; i < data.length; i++) {
-	                	tmpHTML += "<p>" + data[i].indate + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].address + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].lat + 
-	                			   "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].lng + "</p>";
-	                }
+	            	resetChart7();
+	            	
+	            	var tmpHTML = "<tr class='w3-green'>" +
+									"<th>데이터날짜</th>" +
+					  				"<th>주소</th>" +
+					  				"<th>날씨기준날짜</th>" +
+					  				"<th>온도</th>" +
+					  				"<th>습도</th>" +
+					  				"<th>대기기준날짜</th>" +
+					  				"<th>미세먼지</th>" +
+					  				"<th>초미세먼지</th>" +
+					  				"<th>오존지수</th>" +
+								   "</tr>";
+				    for(var i = 0; i < data.length; i++) {
+				    	tmpHTML += "<tr>" +
+				    	  			"<td>"+ data[i].indate + "</td>" +
+				    	  			"<td>"+ data[i].address + "</td>" +
+				    	  			"<td>"+ data[i].weather.basedate + " " + data[i].weather.basetime + "</td>" +
+				    	  			"<td>"+ data[i].weather.t1h + "</td>" +
+				    	  			"<td>"+ data[i].weather.reh + "</td>" +
+				    	  			"<td>"+ data[i].airstatus.dataTime + "</td>" +
+				    	  			"<td>"+ data[i].airstatus.pm10Value + "</td>" +
+				    	  			"<td>"+ data[i].airstatus.pm25Value + "</td>" +
+				    	  			"<td>"+ data[i].airstatus.o3Value + "</td>" +
+				    			   "</tr>";
+				    			   
+				    	var tmpData = data[i].weather.t1h;
+				    	tmpData *= 1;	// 문자열을 숫자로 형변환
+				    	chart7.options.data[0].dataPoints.push({x: i, y: tmpData});
+				    	tmpData = data[i].weather.reh;
+				    	tmpData *= 1;
+				    	chart7.options.data[1].dataPoints.push({x: i, y: tmpData});
+				    }
+				    $('#docList').append(tmpHTML);
 	                
-	                $('#docList').append(tmpHTML);
+	                chart7.options.title.text = "온도(t1h), 습도(reh) 데이터";
+                	chart7.render();	
+                	
+                	setPageByTerm("pd", sDateTerm, eDateTerm);
 	            	break;
             	default :
             		break;
@@ -785,6 +989,72 @@ function searchByTerm() {
         	console.log("ERROR : ", e);
         }
     });
+}
+
+function getPZTotalCount(keyVal, valueVal) {
+	var totalCount = 0;
+	
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pz/key/" + keyVal + "/" + valueVal + "/tt" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	//console.log("SUCCESS : ", data);
+        	totalCount = data;
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+	
+	return totalCount;
+}
+
+function getPDTotalCount(keyVal, valueVal) {
+	var totalCount = 0;
+	
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pd/key/" + keyVal + "/" + valueVal + "/tt" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	//console.log("SUCCESS : ", data);
+        	totalCount = data;
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+	
+	return totalCount;
+}
+
+function setPageByKey(dbName, keyVal, valueVal) {
+	var totalC = 0;
+	switch(dbName) {
+		case 'pz' :
+			totalC = getPZTotalCount(keyVal, valueVal);
+			break;
+		case 'pd' :
+			totalC = getPDTotalCount(keyVal, valueVal);
+			break;
+		default :
+			break;
+	}
+	
+	if(10 > totalC) {
+		totalDBPage = 1;	
+	} else {
+		totalDBPage = Math.round(totalC / 10);	
+	}
+	
+	$('#currentPage').html((currentDBPage + 1) + "/" + totalDBPage);
 }
 
 function searchByKey() {
@@ -819,23 +1089,70 @@ function searchByKey() {
             
             switch(currentSelectedColl) {
 	            case 'parkingZone' :
-	                var tmpHTML = "";
+	                var tmpHTML = "<tr class='w3-green'>" +
+									"<th>관리번호</th>" +
+					  				"<th>주차장명</th>" +
+					  				"<th>도로명주소</th>" +
+					  				"<th>구분</th>" +
+					  				"<th>요금정보</th>" +
+					  				"<th>운영요일</th>" +
+					  				"<th>유형</th>" +
+								   "</tr>";
 	                for(var i = 0; i < data.length; i++) {
-	                	tmpHTML += "<p>" + data[i].no + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].name + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].addr_road + 
-	                			   "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].division + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].fee_info + 
-	                			   "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].op_date + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].type + "</p>";
+	                	tmpHTML += "<tr>" +
+	                				 "<td>" + data[i].no + "</td>" +
+	                				 "<td>" + data[i].name + "</td>" +
+	                				 "<td>" + data[i].addr_road + "</td>" +
+	                				 "<td>" + data[i].division + "</td>" +
+	                				 "<td>" + data[i].fee_info + "</td>" +
+	                				 "<td>" + data[i].op_date + "</td>" +
+	                				 "<td>" + data[i].type + "</td>" +
+	                			   "</tr>";
 	                }
-	                
 	                $('#docList').append(tmpHTML);
+	                
+	                setPageByKey("pz", colKey, searchStr);
 	            	break;
 	            case 'publicData' :
-	            	var tmpHTML = "";
+	            	resetChart7();
+	            	
+					var tmpHTML = "<tr class='w3-green'>" +
+									"<th>데이터날짜</th>" +
+					  				"<th>주소</th>" +
+					  				"<th>날씨기준날짜</th>" +
+					  				"<th>온도</th>" +
+					  				"<th>습도</th>" +
+					  				"<th>대기기준날짜</th>" +
+					  				"<th>미세먼지</th>" +
+					  				"<th>초미세먼지</th>" +
+					  				"<th>오존지수</th>" +
+								   "</tr>";
 	                for(var i = 0; i < data.length; i++) {
-	                	tmpHTML += "<p>" + data[i].indate + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].address + "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].lat + 
-	                			   "&nbsp; &nbsp; &nbsp; &nbsp;" + data[i].lng + "</p>";
+	                	tmpHTML += "<tr>" +
+	                	  			"<td>"+ data[i].indate + "</td>" +
+	                	  			"<td>"+ data[i].address + "</td>" +
+	                	  			"<td>"+ data[i].weather.basedate + " " + data[i].weather.basetime + "</td>" +
+	                	  			"<td>"+ data[i].weather.t1h + "</td>" +
+	                	  			"<td>"+ data[i].weather.reh + "</td>" +
+	                	  			"<td>"+ data[i].airstatus.dataTime + "</td>" +
+	                	  			"<td>"+ data[i].airstatus.pm10Value + "</td>" +
+	                	  			"<td>"+ data[i].airstatus.pm25Value + "</td>" +
+	                	  			"<td>"+ data[i].airstatus.o3Value + "</td>" +
+	                			   "</tr>";
+	                			   
+	                	var tmpData = data[i].weather.t1h;
+				    	tmpData *= 1;	// 문자열을 숫자로 형변환
+				    	chart7.options.data[0].dataPoints.push({x: i, y: tmpData});
+				    	tmpData = data[i].weather.reh;
+				    	tmpData *= 1;
+				    	chart7.options.data[1].dataPoints.push({x: i, y: tmpData});
 	                }
-	                
 	                $('#docList').append(tmpHTML);
+	                
+	                chart7.options.title.text = "온도(t1h), 습도(reh) 데이터";
+                	chart7.render();
+	                
+	                setPageByKey("pd", colKey, searchStr);
 	            	break;
             	default :
             		break;
@@ -925,6 +1242,10 @@ function selectCollect(myObj) {
 	
 	$('#sDate').prop('disabled', false);
     $('#eDate').prop('disabled', false);
+    
+    $('#docList').children().remove();
+    
+    $('#currentPage').html((currentDBPage + 1) + "/" + totalDBPage);
 }
 
 // Get Collection names

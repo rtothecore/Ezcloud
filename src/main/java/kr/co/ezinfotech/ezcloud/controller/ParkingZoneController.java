@@ -90,9 +90,22 @@ public class ParkingZoneController {
 		return pzService.findByKeyValue(key, value, page);
 	}
 	
+	@GetMapping("/pz/key/{key}/{value}/tt")
+	public long getTotalCountByKeyValue(@PathVariable("key") String key, @PathVariable("value") String value) {
+		logger.info("getTotalCountByKeyValue-" + "key : " + key + ", value : " + value);
+		return pzService.getTotalCountByKeyValue(key, value);
+	}
+	
 	@GetMapping("/pz/term/{sdate}/{edate}/{page}")
 	public List<PZDomain> findByDateTerm(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate, @PathVariable("page") String page) {
 		logger.info("sdate : " + sdate + ", edate : " + edate + ", page : " + page);
 		return pzService.findByDateTerm(sdate, edate, page);
 	}
+	
+	@GetMapping("/pz/term/{sdate}/{edate}/tt")
+	public long getTotalCountByTerm(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate) {
+		logger.info("getTotalCountByTerm-" + "sdate : " + sdate + ", edate : " + edate);
+		return pzService.getTotalCountByTerm(sdate, edate);
+	}
+	
 }

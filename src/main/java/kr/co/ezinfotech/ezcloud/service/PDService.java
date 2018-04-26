@@ -23,4 +23,7 @@ public interface PDService {
 	public Set<String> getCollectionNames();
 	public CommandResult getCollectionStats(String collectionName);
 	public Set<String> getCollectionKeys(String collectionName);
+	
+	public long getTotalCountByKeyValue(String key, String value);
+	public long getTotalCountByTerm(String sdate, String edate);
 }
