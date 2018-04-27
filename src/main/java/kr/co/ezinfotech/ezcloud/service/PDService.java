@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.mongodb.CommandResult;
 
+import kr.co.ezinfotech.ezcloud.domain.PDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PDDomain;
 
 public interface PDService {
@@ -26,4 +27,7 @@ public interface PDService {
 	
 	public long getTotalCountByKeyValue(String key, String value);
 	public long getTotalCountByTerm(String sdate, String edate);
+	
+	public List<PDAggregateField> getGroupByIndate(String sdate, String edate);
+	public List<PDAggregateField> getGroupByKey(String key, String value);
 }

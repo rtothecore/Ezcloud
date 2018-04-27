@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.mongodb.CommandResult;
 
+import kr.co.ezinfotech.ezcloud.domain.PDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PDDomain;
 import kr.co.ezinfotech.ezcloud.service.PDService;
 
@@ -104,5 +105,15 @@ public class PublicDataController {
 	@GetMapping("/pd/term/{sdate}/{edate}/tt")
 	public long getTotalCountByTerm(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate) {
 		return pdService.getTotalCountByTerm(sdate, edate);
+	}
+	
+	@GetMapping("/pd/term/{sdate}/{edate}/ag")
+	public List<PDAggregateField> getGroupByIndate(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate) {
+		return pdService.getGroupByIndate(sdate, edate);
+	}
+	
+	@GetMapping("/pd/key/{key}/{value}/ag")
+	public List<PDAggregateField> getGroupByKey(@PathVariable("key") String key, @PathVariable("value") String value) {
+		return pdService.getGroupByKey(key, value);
 	}
 }

@@ -325,7 +325,23 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		  	  <hr/>
 			  <div id="chartContainer7" style="height: 300px; max-width: 950px; margin: 0px auto;"></div>
 			  <hr/>
-			  <div class="w3-container w3-cyan w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
+			  <!-- <div class="w3-container w3-cyan w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div> -->
+			  
+			  <div class="w3-container w3-cyan w3-xlarge w3-center">
+			  	<span class="w3-right">
+			  		<h6>
+						<select id="selGraphByDate" class="w3-select" name="option">
+						<!--
+						  <option value="" disabled selected>날짜선택</option>
+						  <option value="1">2018-04-12</option>
+						  <option value="2">2018-04-13</option>
+						  <option value="3">2018-04-14</option>
+						 -->
+						</select>
+					</h6>
+			  	</span>
+			  </div>
+			  
 		  </div>
 		  <!-- ///////////////////////////////////////////// FOR GRAPH //////////////////////////////////////////////////////////// -->
 		  
@@ -407,6 +423,7 @@ var currentSelectedColl = "";
 var showMode = 0; // 0: list, 1: graph
 var chart7 = null;
 var totalDBPage = 0;
+var parsedAggData = [];
 
 function switchShowMode() {
 	if(0 == showMode) {	// show list
@@ -652,9 +669,6 @@ $(function() {
 		height:300,
 		animationEnabled: true,
 		theme: "light2",
-		title:{
-			text: "기간별 주차율 예측 데이터"
-		},
 		axisY:{
 			includeZero: false
 		},
@@ -705,6 +719,29 @@ $(function() {
         	$('#searchText').prop('disabled', false);
         }
     });
+	
+	////////////// DB page select date selected check event /////////////////
+	$( "#selGraphByDate" ).change(function() {
+		$( "#selGraphByDate option:selected" ).each(function() {
+			resetChart7();
+			
+			for(var i = 0; i < parsedAggData.length; i++) {
+				var indate = parsedAggData[i].indate;
+				
+				if($(this).text() == indate) {
+					var tmpData = parsedAggData[i].t1h;
+			    	tmpData *= 1;	// 문자열을 숫자로 형변환
+			    	chart7.options.data[0].dataPoints.push({y: tmpData, label:parsedAggData[i].intime});
+			    	tmpData = parsedAggData[i].reh;
+			    	tmpData *= 1;
+			    	chart7.options.data[1].dataPoints.push({y: tmpData, label:parsedAggData[i].intime});
+				}
+			}
+        
+    		chart7.render();
+		});
+	});
+	
 });
 
 function goWithUpload() {
@@ -788,9 +825,6 @@ function resetChart7() {
 		height:300,
 		animationEnabled: true,
 		theme: "light2",
-		title:{
-			text: "기간별 주차율 예측 데이터"
-		},
 		axisY:{
 			includeZero: false
 		},
@@ -825,7 +859,7 @@ function getPZTermTotalCount(sdateVal, edateVal) {
         cache: false,
         async: false,
         success: function (data) {
-        	console.log("SUCCESS : ", data);
+        	//console.log("SUCCESS : ", data);
         	totalCount = data;
         },
         error: function (e) {
@@ -847,7 +881,7 @@ function getPDTermTotalCount(sdateVal, edateVal) {
         cache: false,
         async: false,
         success: function (data) {
-        	console.log("SUCCESS : ", data);
+        	//console.log("SUCCESS : ", data);
         	totalCount = data;
         },
         error: function (e) {
@@ -976,10 +1010,13 @@ function searchByTerm() {
 				    }
 				    $('#docList').append(tmpHTML);
 	                
-	                chart7.options.title.text = "온도(t1h), 습도(reh) 데이터";
                 	chart7.render();	
                 	
                 	setPageByTerm("pd", sDateTerm, eDateTerm);
+                	
+                	// get mongodb aggregation data
+                	getAggData(sDateTerm, eDateTerm);
+                	
 	            	break;
             	default :
             		break;
@@ -989,6 +1026,67 @@ function searchByTerm() {
         	console.log("ERROR : ", e);
         }
     });
+}
+
+function getAggData(sDateTerm, eDateTerm) {
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pd/term/" + sDateTerm + "/" + eDateTerm + "/ag" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	//console.log("getAggData : ", data);
+        	parseAggData(data);
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+}
+
+function parseAggData(data) {
+	
+	parsedAggData = [];
+	
+	for(var i = 0; i < data.length; i++) {
+		var tempParsed = new Object();
+		tempParsed.indate = data[i].indate.substr(0, 10);
+		tempParsed.intime = data[i].indate.substr(11, 19);
+		tempParsed.t1h = data[i].weather.t1h;
+		tempParsed.reh = data[i].weather.reh;
+		parsedAggData.push(tempParsed);
+	}
+	
+	//console.log("parseAggData : ", parsedAggData);
+	
+	setSelectBox(parsedAggData);
+}
+
+function setSelectBox(parsedAggData) {
+	$('#selGraphByDate').children().remove();
+	var tmpSavedDate = ""
+	
+	for(var i = 0; i < parsedAggData.length; i++) {
+		var indate = parsedAggData[i].indate;
+		
+		if("" == tmpSavedDate) {
+			tmpHTML = "<option value='" + indate + "'>" + indate + "</option>"
+			$('#selGraphByDate').append(tmpHTML);
+			
+			tmpSavedDate = indate;
+		} else {
+			if(tmpSavedDate == indate) {
+				continue;
+			} else {
+				tmpHTML = "<option value='" + indate + "'>" + indate + "</option>"
+				$('#selGraphByDate').append(tmpHTML);
+				
+				tmpSavedDate = indate;
+			}
+		}
+	}
 }
 
 function getPZTotalCount(keyVal, valueVal) {
@@ -1149,15 +1247,34 @@ function searchByKey() {
 	                }
 	                $('#docList').append(tmpHTML);
 	                
-	                chart7.options.title.text = "온도(t1h), 습도(reh) 데이터";
                 	chart7.render();
 	                
 	                setPageByKey("pd", colKey, searchStr);
+	                
+	                getAggDataByKey(colKey, searchStr)
 	            	break;
             	default :
             		break;
             }
             
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+}
+
+function getAggDataByKey(keyVal, searchStrVal) {
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pd/key/" + keyVal + "/" + searchStrVal + "/ag" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	console.log("getAggDataByKey : ", data);
+        	parseAggData(data);
         },
         error: function (e) {
         	console.log("ERROR : ", e);

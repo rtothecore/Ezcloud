@@ -12,7 +12,15 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.GroupOperation;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -25,6 +33,7 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import kr.co.ezinfotech.ezcloud.dao.PDRepo;
+import kr.co.ezinfotech.ezcloud.domain.PDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PDDomain;
 import kr.co.ezinfotech.ezcloud.service.PDService;
 import kr.co.ezinfotech.ezcloud.service.PZService;
@@ -175,5 +184,38 @@ public class PDServiceImpl implements PDService{
 		query.addCriteria(Criteria.where("indate").lt(edate).gt(sdate));
 		
 		return mongoTemplate.count(query, PDDomain.class);
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see kr.co.ezinfotech.ezcloud.service.PDService#getGroupByIndate(java.lang.String, java.lang.String)
+	 * 
+	 * db.publicData.find(
+			{indate : {$gt:"2018-04-12", $lt:"2018-04-15"}},
+			{ indate: 1, "weather.t1h": 1, "weather.reh": 1 }
+		).sort({"indate" : 1})
+	 */
+	@Override
+	public List<PDAggregateField> getGroupByIndate(String sdate, String edate) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("indate").lt(edate).gt(sdate));
+		query.with(new Sort(Sort.Direction.ASC, "indate"));
+		query.fields().include("indate");
+		query.fields().include("weather.t1h");
+		query.fields().include("weather.reh");
+		
+		return mongoTemplate.find(query, PDAggregateField.class);
+	}
+	
+	@Override
+	public List<PDAggregateField> getGroupByKey(String key, String value) {
+		Query query = new Query();
+		query.addCriteria(Criteria.where(key).regex(value));
+		query.with(new Sort(Sort.Direction.ASC, "indate"));
+		query.fields().include("indate");
+		query.fields().include("weather.t1h");
+		query.fields().include("weather.reh");
+		
+		return mongoTemplate.find(query, PDAggregateField.class);
 	}
 }
