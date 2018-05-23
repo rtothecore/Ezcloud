@@ -893,6 +893,28 @@ function getPDTermTotalCount(sdateVal, edateVal) {
 	return totalCount;
 }
 
+function getIDTermTotalCount(sdateVal, edateVal) {
+	var totalCount = 0;
+	
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/id/term/" + sdateVal + "/" + edateVal + "/tt" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	//console.log("SUCCESS : ", data);
+        	totalCount = data;
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+	
+	return totalCount;
+}
+
 function setPageByTerm(dbName, sdateVal, edateVal) {
 	var totalC = 0;
 	switch(dbName) {
@@ -901,6 +923,9 @@ function setPageByTerm(dbName, sdateVal, edateVal) {
 			break;
 		case 'pd' :
 			totalC = getPDTermTotalCount(sdateVal, edateVal);
+			break;
+		case 'id' :
+			totalC = getIDTermTotalCount(sdateVal, edateVal);
 			break;
 		default :
 			break;
@@ -934,7 +959,8 @@ function searchByTerm() {
 		case 'publicData' :
 			urlVal = "/pd/";
 			break;
-		case 'test' :
+		case 'iotData' :
+			urlVal = "/id/";
 			break;
 		default :
 			break;
@@ -1016,7 +1042,43 @@ function searchByTerm() {
                 	setPageByTerm("pd", sDateTerm, eDateTerm);
                 	
                 	// get mongodb aggregation data
-                	getAggData(sDateTerm, eDateTerm);
+                	getAggData("pd", sDateTerm, eDateTerm);
+                	
+	            	break;
+	            case 'iotData' :
+	            	resetChart7();
+	            	
+	            	var tmpHTML = "<tr class='w3-green'>" +
+									"<th>데이터날짜</th>" +
+					  				"<th>dust</th>" +
+					  				"<th>air</th>" +
+					  				"<th>온도</th>" +
+					  				"<th>습도</th>" +
+								   "</tr>";
+				    for(var i = 0; i < data.length; i++) {
+				    	tmpHTML += "<tr>" +
+				    	  			"<td>"+ data[i].date + "</td>" +
+				    	  			"<td>"+ data[i].data.dust + "</td>" +
+				    	  			"<td>"+ data[i].data.air + "</td>" +
+				    	  			"<td>"+ data[i].data.temperature + "</td>" +
+				    	  			"<td>"+ data[i].data.humidity + "</td>" +
+				    			   "</tr>";
+				    			   
+				    	var tmpData = data[i].data.temperature;
+				    	tmpData *= 1;	// 문자열을 숫자로 형변환
+				    	chart7.options.data[0].dataPoints.push({x: i, y: tmpData});
+				    	tmpData = data[i].data.humidity;
+				    	tmpData *= 1;
+				    	chart7.options.data[1].dataPoints.push({x: i, y: tmpData});
+				    }
+				    $('#docList').append(tmpHTML);
+	                
+                	chart7.render();	
+                	
+                	setPageByTerm("id", sDateTerm, eDateTerm);
+                	
+                	// get mongodb aggregation data
+                	getAggData("id", sDateTerm, eDateTerm);
                 	
 	            	break;
             	default :
@@ -1029,17 +1091,17 @@ function searchByTerm() {
     });
 }
 
-function getAggData(sDateTerm, eDateTerm) {
+function getAggData(clName, sDateTerm, eDateTerm) {	
 	$.ajax({
         type: "GET",
         contentType: "application/json",
-        url: "/pd/term/" + sDateTerm + "/" + eDateTerm + "/ag" ,
+        url: "/" + clName + "/term/" + sDateTerm + "/" + eDateTerm + "/ag" ,
         dataType: 'json',
         cache: false,
         async: false,
         success: function (data) {
         	//console.log("getAggData : ", data);
-        	parseAggData(data);
+        	parseAggData(clName, data);
         },
         error: function (e) {
         	console.log("ERROR : ", e);
@@ -1047,16 +1109,30 @@ function getAggData(sDateTerm, eDateTerm) {
     });
 }
 
-function parseAggData(data) {
+function parseAggData(clName, data) {
 	
 	parsedAggData = [];
 	
 	for(var i = 0; i < data.length; i++) {
 		var tempParsed = new Object();
-		tempParsed.indate = data[i].indate.substr(0, 10);
-		tempParsed.intime = data[i].indate.substr(11, 19);
-		tempParsed.t1h = data[i].weather.t1h;
-		tempParsed.reh = data[i].weather.reh;
+		
+		switch(clName) {
+		case "pd" :
+			tempParsed.indate = data[i].indate.substr(0, 10);
+			tempParsed.intime = data[i].indate.substr(11, 19);
+			tempParsed.t1h = data[i].weather.t1h;
+			tempParsed.reh = data[i].weather.reh;
+			break;
+		case "id" :
+			tempParsed.indate = data[i].date.substr(0, 10);
+			tempParsed.intime = data[i].date.substr(11, 19);
+			tempParsed.t1h = data[i].data.temperature;
+			tempParsed.reh = data[i].data.humidity;
+			break;
+		default :
+			break;
+		}
+		
 		parsedAggData.push(tempParsed);
 	}
 	
@@ -1134,6 +1210,28 @@ function getPDTotalCount(keyVal, valueVal) {
 	return totalCount;
 }
 
+function getIDTotalCount(keyVal, valueVal) {
+	var totalCount = 0;
+	
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/id/key/" + keyVal + "/" + valueVal + "/tt" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	//console.log("SUCCESS : ", data);
+        	totalCount = data;
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+	
+	return totalCount;
+}
+
 function setPageByKey(dbName, keyVal, valueVal) {
 	var totalC = 0;
 	switch(dbName) {
@@ -1142,6 +1240,9 @@ function setPageByKey(dbName, keyVal, valueVal) {
 			break;
 		case 'pd' :
 			totalC = getPDTotalCount(keyVal, valueVal);
+			break;
+		case 'id' :
+			totalC = getIDTotalCount(keyVal, valueVal);
 			break;
 		default :
 			break;
@@ -1172,6 +1273,9 @@ function searchByKey() {
 			break;
 		case 'publicData' :
 			urlVal = "/pd/";
+			break;
+		case 'iotData' :
+			urlVal = "/id/";
 			break;
 		default :
 			break;
@@ -1252,7 +1356,42 @@ function searchByKey() {
 	                
 	                setPageByKey("pd", colKey, searchStr);
 	                
-	                getAggDataByKey(colKey, searchStr)
+	                getAggDataByKey("pd", colKey, searchStr)
+	            	break;
+	            case 'iotData' :
+	            	resetChart7();
+	            	
+	            	var tmpHTML = "<tr class='w3-green'>" +
+									"<th>데이터날짜</th>" +
+					  				"<th>dust</th>" +
+					  				"<th>air</th>" +
+					  				"<th>온도</th>" +
+					  				"<th>습도</th>" +
+								   "</tr>";
+					
+	                for(var i = 0; i < data.length; i++) {
+	                	tmpHTML += "<tr>" +
+	                	  			"<td>"+ data[i].date + "</td>" +
+	                	  			"<td>"+ data[i].data.dust + "</td>" +
+	                	  			"<td>"+ data[i].data.air + "</td>" +
+	                	  			"<td>"+ data[i].data.temperature + "</td>" +
+	                	  			"<td>"+ data[i].data.humidity + "</td>" +
+	                			   "</tr>";
+	                			   
+	                	var tmpData = data[i].data.temperature;
+				    	tmpData *= 1;	// 문자열을 숫자로 형변환
+				    	chart7.options.data[0].dataPoints.push({x: i, y: tmpData});
+				    	tmpData = data[i].data.humidity;
+				    	tmpData *= 1;
+				    	chart7.options.data[1].dataPoints.push({x: i, y: tmpData});
+	                }
+	                $('#docList').append(tmpHTML);
+	                
+                	chart7.render();
+	                
+	                setPageByKey("id", colKey, searchStr);
+	                
+	                getAggDataByKey("id", colKey, searchStr)
 	            	break;
             	default :
             		break;
@@ -1265,17 +1404,17 @@ function searchByKey() {
     });
 }
 
-function getAggDataByKey(keyVal, searchStrVal) {
+function getAggDataByKey(clName, keyVal, searchStrVal) {
 	$.ajax({
         type: "GET",
         contentType: "application/json",
-        url: "/pd/key/" + keyVal + "/" + searchStrVal + "/ag" ,
+        url: "/" + clName + "/key/" + keyVal + "/" + searchStrVal + "/ag" ,
         dataType: 'json',
         cache: false,
         async: false,
         success: function (data) {
         	console.log("getAggDataByKey : ", data);
-        	parseAggData(data);
+        	parseAggData(clName, data);
         },
         error: function (e) {
         	console.log("ERROR : ", e);

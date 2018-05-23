@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 import kr.co.ezinfotech.ezcloud.domain.GPD;
-import kr.co.ezinfotech.ezcloud.domain.GPDRecord;
 import kr.co.ezinfotech.ezcloud.domain.PKDDomain;
 import kr.co.ezinfotech.ezcloud.domain.PZDomain;
 import kr.co.ezinfotech.ezcloud.service.PKDService;
