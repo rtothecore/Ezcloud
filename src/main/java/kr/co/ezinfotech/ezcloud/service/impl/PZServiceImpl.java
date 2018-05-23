@@ -26,6 +26,7 @@ import com.mongodb.WriteResult;
 
 import kr.co.ezinfotech.ezcloud.dao.PZRepo;
 import kr.co.ezinfotech.ezcloud.domain.PZDomain;
+import kr.co.ezinfotech.ezcloud.domain.PZDomainShort;
 import kr.co.ezinfotech.ezcloud.service.PZService;
 
 @Service
@@ -73,6 +74,7 @@ public class PZServiceImpl implements PZService{
 				
 		return pzRepo.findByNo(no);
 	}
+	
 	@CacheEvict(value = "parkingZoneCache", key="")
 	@Override
 	public List<PZDomain> delete(PZDomain pz) {
@@ -184,5 +186,24 @@ public class PZServiceImpl implements PZService{
 		query.addCriteria(Criteria.where("data_date").lt(edate).gt(sdate));
 		
 		return mongoTemplate.count(query, PZDomain.class);
+	}
+	
+	@Override
+	public List<PZDomain> findByManageFlag() {
+		Query query = new Query();
+		query.addCriteria(Criteria.where("manage_flag").is("1"));
+		
+		return mongoTemplate.find(query, PZDomain.class);
+	}
+	
+	@Override
+	public List<PZDomainShort> findByManageFlag2() {
+		Query query = new Query();
+		query.fields().include("no");
+		query.fields().include("name");
+		query.fields().include("addr_road");
+		query.addCriteria(Criteria.where("manage_flag").is("1"));
+		
+		return mongoTemplate.find(query, PZDomainShort.class);
 	}
 }

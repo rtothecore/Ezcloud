@@ -65,7 +65,7 @@
 		    <version>3.16</version>
 		</dependency>
 		
-		<!-- Mogno DB -->
+		<!-- Mongo DB -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-mongodb</artifactId>

@@ -6,6 +6,7 @@ import java.util.Set;
 import com.mongodb.CommandResult;
 
 import kr.co.ezinfotech.ezcloud.domain.PZDomain;
+import kr.co.ezinfotech.ezcloud.domain.PZDomainShort;
 
 public interface PZService {
 	public List<PZDomain> findbyNo(String no);
@@ -14,6 +15,8 @@ public interface PZService {
 	public List<PZDomain> findByPage(String page);
 	public List<PZDomain> findByKeyValue(String key, String value, String page);
 	public List<PZDomain> findByDateTerm(String sdate, String edate, String page);
+	public List<PZDomain> findByManageFlag();
+	public List<PZDomainShort> findByManageFlag2();
 	
 	public List<PZDomain> insert(PZDomain pz);
 	public List<PZDomain> update(PZDomain pz);

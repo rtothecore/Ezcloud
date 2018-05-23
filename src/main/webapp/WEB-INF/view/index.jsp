@@ -52,6 +52,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     <a href="#" data-menu="2" onclick="selectMenu(this)" class="w3-bar-item w3-button w3-padding"><i class="fa fa-eye fa-fw"></i>  Upload</a>
     <a href="#" data-menu="3" onclick="selectMenu(this)" class="w3-bar-item w3-button w3-padding"><i class="fa fa-users fa-fw"></i>  Database</a>
     <a href="#" data-menu="4" onclick="selectMenu(this)" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bullseye fa-fw"></i>  Parking</a>
+    <a href="#" data-menu="5" onclick="selectMenu(this)" class="w3-bar-item w3-button w3-padding"><i class="fa fa-codepen fa-fw"></i>  Get data</a>
     <!-- 
     <a href="#" onclick="selectMenu(this)" class="w3-bar-item w3-button w3-padding"><i class="fa fa-diamond fa-fw"></i>  Orders</a>
     <a href="#" onclick="selectMenu(this)" class="w3-bar-item w3-button w3-padding"><i class="fa fa-bell fa-fw"></i>  News</a>
@@ -131,12 +132,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <div class="w3-container">
     <h5>엑셀 파일 업로드</h5>
-    
     <form id="target" method="POST" action="uploadFile" enctype="multipart/form-data">
 		<button class="w3-button w3-dark-grey replace">엑셀파일선택<i class="fa fa-arrow-right"></i></button><input type="file" name="file" class="upload">
 		<input class="w3-button w3-dark-grey" type="submit" value="업로드" onclick="goWithUpload()">
 	</form>
-    
+	
     <!-- 
     <button class="w3-button w3-dark-grey">파일선택 <i class="fa fa-arrow-right"></i></button>
     <button class="w3-button w3-dark-grey">업로드 <i class="fa fa-arrow-up"></i></button>
@@ -187,99 +187,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		</div>
 		</div>
 		
-		<div class="w3-quarter">
-		<div class="w3-card">
-		  <div class="w3-container w3-teal">
-		    <h5>DB INFO</h5>
-		  </div>
-		  <div class="w3-container w3-text-teal"><h6>---</h6></div>
-		  <ul class="w3-ul">
-		    <li>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		    </li>
-		  </ul>
-		  <div class="w3-container w3-teal w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
-		  <!-- <div class="w3-container w3-indigo w3-xlarge">&laquo;<span class="w3-right">&raquo;</span></div>  -->
-		</div>
-		</div>
-		
-		<div class="w3-quarter">
-		<div class="w3-card">
-		  <div class="w3-container w3-orange">
-		    <h5>DB INFO</h5>
-		  </div>
-		  <div class="w3-container w3-text-orange"><h6>---</h6></div>
-		  <ul class="w3-ul">
-		    <li>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		    </li>
-		  </ul>
-		  <div class="w3-container w3-orange w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
-		  <!-- <div class="w3-container w3-indigo w3-xlarge">&laquo;<span class="w3-right">&raquo;</span></div>  -->
-		</div>
-		</div>
-		
-		<div class="w3-quarter">
-		<div class="w3-card">
-		  <div class="w3-container w3-grey">
-		    <h5>DB INFO</h5>
-		  </div>
-		  <div class="w3-container w3-text-grey"><h6>---</h6></div>
-		  <ul class="w3-ul">
-		    <li>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		      <p>---</p>
-		    </li>
-		  </ul>
-		  <div class="w3-container w3-grey w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
-		  <!-- <div class="w3-container w3-indigo w3-xlarge">&laquo;<span class="w3-right">&raquo;</span></div>  -->
-		</div>
-		</div>
-		
-    </div>
-    
-    <hr/>
-    
-    <div class="w3-row-padding" style="margin:0 -16px">
-    
-      <div class="w3-quarter">
-      	<div class="w3-card">
-		  <div class="w3-container w3-blue">
-		    <h5>COLLECTIONS LIST</h5>
-		  </div>
-		  <div id="collectionNamesList" class="w3-container w3-text-blue"><!-- <h4>parkingZone</h4><h4>pubdata</h4><h4>pubdata2</h4> --></div>
-		  
-		  <div class="w3-container w3-deep-purple">
-		    <h5>COLLECTIONS INFO</h5>
-		  </div>
-		  <ul class="w3-ul">
-		    <li id="clInfoList">
-		      <!-- 
-		      <p>Name : parkingZone</p>
-		      <p>Count : 3</p>
-		      <p>Size : 104kb</p>
-		      <p>Storage size : 120kb</p>
-		      <p>Indexes : 2</p>
-		      -->
-		    </li>
-		  </ul>
-		  
-		  <div class="w3-container w3-deep-purple w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
-		</div>
-      </div>
-      
-      <div class="w3-threequarter">
+		<div class="w3-threequarter">
       	<div class="w3-card">
 		  <div class="w3-container w3-cyan">
 		       <h6>
@@ -345,6 +253,38 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		  </div>
 		  <!-- ///////////////////////////////////////////// FOR GRAPH //////////////////////////////////////////////////////////// -->
 		  
+		</div>
+      </div>
+		
+    </div>
+    
+    <hr/>
+    
+    <div class="w3-row-padding" style="margin:0 -16px">
+    
+      <div class="w3-quarter">
+      	<div class="w3-card">
+		  <div class="w3-container w3-blue">
+		    <h5>COLLECTIONS LIST</h5>
+		  </div>
+		  <div id="collectionNamesList" class="w3-container w3-text-blue"><!-- <h4>parkingZone</h4><h4>pubdata</h4><h4>pubdata2</h4> --></div>
+		  
+		  <div class="w3-container w3-deep-purple">
+		    <h5>COLLECTIONS INFO</h5>
+		  </div>
+		  <ul class="w3-ul">
+		    <li id="clInfoList">
+		      <!-- 
+		      <p>Name : parkingZone</p>
+		      <p>Count : 3</p>
+		      <p>Size : 104kb</p>
+		      <p>Storage size : 120kb</p>
+		      <p>Indexes : 2</p>
+		      -->
+		    </li>
+		  </ul>
+		  
+		  <div class="w3-container w3-deep-purple w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
 		</div>
       </div>
       
@@ -413,6 +353,33 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- End page content -->
 </div>
+
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
+
+<!-- !PAGE CONTENT! -->
+<div id="content5" class="w3-main" style="margin-left:300px;margin-top:43px;display:none;">
+
+  <!-- Header -->
+  <header class="w3-container" style="padding-top:22px">
+    <h5><b><i class="fa fa-dashboard"></i> My Dashboard</b></h5>
+  </header>
+
+  <div class="w3-container">
+    <h5>각 주차장 데이터 가져오기</h5>
+         기간설정 : <input type="date" id="getDataSDate" style="width:150px;"> ~ <input type="date" id="getDataEDate" style="width:150px;">&nbsp;&nbsp;
+     <button class="w3-button w3-purple w3-round-large" onclick="getData()">가져오기</button>
+  </div>
+
+  <!-- Footer -->
+  <footer class="w3-container w3-padding-16 w3-light-grey">
+    <h4>FOOTER</h4>
+    <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+  </footer>
+
+  <!-- End page content -->
+</div>
+
+<!-- ///////////////////////////////////////////////////////////////////////////////////////////////////// -->
 
 <script>
 
@@ -484,7 +451,8 @@ $(function() {
 			startAngle: 60,
 			//innerRadius: 60,
 			indexLabelFontSize: 17,
-			indexLabel: "{label} - #percent%",
+			indexLabelFontColor: "black",
+			indexLabel: "{label} #percent%",
 			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
 			dataPoints: [
 				{ y: 67, label: "점유", name: "점유" },
@@ -510,11 +478,12 @@ $(function() {
 			startAngle: 60,
 			//innerRadius: 60,
 			indexLabelFontSize: 17,
-			indexLabel: "{label} - #percent%",
+			indexLabelFontColor: "black",
+			indexLabel: "{label} #percent%",
 			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
 			dataPoints: [
 				{ y: 28, label: "점유", name: "점유" },
-				{ y: 6, label: "가능", name: "가능" }
+				{ y: 72, label: "가능", name: "가능" }
 			]
 		}]
 	});
@@ -536,11 +505,12 @@ $(function() {
 			startAngle: 60,
 			//innerRadius: 60,
 			indexLabelFontSize: 17,
-			indexLabel: "{label} - #percent%",
+			indexLabelFontColor: "black",
+			indexLabel: "{label} #percent%",
 			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
 			dataPoints: [
-				{ y: 167, label: "점유", name: "점유" },
-				{ y: 128, label: "가능", name: "가능" }
+				{ y: 67, label: "점유", name: "점유" },
+				{ y: 33, label: "가능", name: "가능" }
 			]
 		}]
 	});
@@ -562,11 +532,12 @@ $(function() {
 			startAngle: 60,
 			//innerRadius: 60,
 			indexLabelFontSize: 17,
-			indexLabel: "{label} - #percent%",
+			indexLabelFontColor: "black",
+			indexLabel: "{label} #percent%",
 			toolTipContent: "<b>{label}:</b> {y} (#percent%)",
 			dataPoints: [
 				{ y: 10, label: "점유", name: "점유" },
-				{ y: 7, label: "가능", name: "가능" }
+				{ y: 90, label: "가능", name: "가능" }
 			]
 		}]
 	});
@@ -744,6 +715,30 @@ $(function() {
 	
 });
 
+function getData() {
+	$("body").mLoading({
+		  text:"Loading data...",
+	});
+	
+	// "/pkd/getManage/{startDate}/{endDate}"
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pkd/getManage/" + $('#getDataSDate').val() + "/" + $('#getDataEDate').val(),
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	console.log("SUCCESS : ", data);
+        	$("body").mLoading('hide');
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        	$("body").mLoading('hide');
+        }
+    });
+}
+
 function goWithUpload() {
 	$("body").mLoading({
 		  text:"Uploading...",
@@ -786,6 +781,12 @@ function selectMenu(myObj) {
 			console.log("clicked Parking!");
 			currentPage = 0;
 			getParkingZoneJson(currentPage);
+			break;
+		case 5 :
+			$('#content5').siblings().css("display", "none");
+			$('#content5').css("display", "block");
+			$('#topMenu').css("display", "block");
+			console.log("clicked Upload!");
 			break;
 		default :
 			break;

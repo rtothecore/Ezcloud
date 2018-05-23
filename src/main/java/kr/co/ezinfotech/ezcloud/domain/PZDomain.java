@@ -44,4 +44,7 @@ public class PZDomain implements Serializable {
     private String lat;
     private String lng;
     private String data_date;
+    
+    private String manage_flag;
+    private String parking_zone_ip;
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mongodb.CommandResult;
 
 import kr.co.ezinfotech.ezcloud.domain.PZDomain;
+import kr.co.ezinfotech.ezcloud.domain.PZDomainShort;
 import kr.co.ezinfotech.ezcloud.service.PZService;
 
 // http://ssoonidev.tistory.com/63?category=665815
@@ -46,6 +47,11 @@ public class ParkingZoneController {
 	@PostMapping("/pz/delete")
 	public List<PZDomain> deleteReply(PZDomain pz){
 		return pzService.delete(pz);
+	}
+	
+	@GetMapping("/pz/getManagedPZ")
+	public List<PZDomainShort> findByManageFlag() {
+		return pzService.findByManageFlag2();
 	}
 
 	@GetMapping("/pz/all")
