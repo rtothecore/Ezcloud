@@ -3,8 +3,11 @@ package kr.co.ezinfotech.ezcloud.service;
 import java.util.List;
 import java.util.Set;
 
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+
 import com.mongodb.CommandResult;
 
+import kr.co.ezinfotech.ezcloud.domain.PKDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PKDDomain;
 
 public interface PKDService {
@@ -31,4 +34,6 @@ public interface PKDService {
 	
 	public long getTotalCountByKeyValue(String key, String value);
 	public long getTotalCountByTerm(String sdate, String edate);
+	
+	public List<PKDAggregateField> getGroupByDate(String sdate, String edate);
 }

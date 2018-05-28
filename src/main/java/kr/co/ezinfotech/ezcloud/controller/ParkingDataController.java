@@ -16,6 +16,8 @@ import org.springframework.web.client.RestTemplate;
 import com.mongodb.CommandResult;
 
 import kr.co.ezinfotech.ezcloud.domain.GPD;
+import kr.co.ezinfotech.ezcloud.domain.IDAggregateField;
+import kr.co.ezinfotech.ezcloud.domain.PKDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PKDDomain;
 import kr.co.ezinfotech.ezcloud.domain.PZDomain;
 import kr.co.ezinfotech.ezcloud.service.PKDService;
@@ -133,5 +135,10 @@ public class ParkingDataController {
 	@GetMapping("/pkd/term/{sdate}/{edate}/tt")
 	public long getTotalCountByTerm(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate) {
 		return pkdService.getTotalCountByTerm(sdate, edate);
+	}
+	
+	@GetMapping("/pkd/term/{sdate}/{edate}/ag")
+	public List<PKDAggregateField> getGroupByIndate(@PathVariable("sdate") String sdate, @PathVariable("edate") String edate) {
+		return pkdService.getGroupByDate(sdate, edate);
 	}
 }

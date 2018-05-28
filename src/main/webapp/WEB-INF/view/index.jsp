@@ -167,10 +167,10 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     
     	<div class="w3-quarter">
 		<div class="w3-card">
-		  <div class="w3-container w3-indigo">
+		  <div class="w3-container w3-orange">
 		    <h5>DB INFO</h5>
 		  </div>
-		  <div class="w3-container w3-text-indigo" id="dbInfoName"><!-- <h4>Parking</h4> --></div>
+		  <div class="w3-container w3-text-orange" id="dbInfoName"><!-- <h4>Parking</h4> --></div>
 		  <ul class="w3-ul">
 		    <li id="dbInfoList">
 		      <!-- 
@@ -182,9 +182,34 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		      -->
 		    </li>
 		  </ul>
-		  <div class="w3-container w3-indigo w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
+		  <!-- <div class="w3-container w3-orange w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>  -->
 		  <!-- <div class="w3-container w3-indigo w3-xlarge">&laquo;<span class="w3-right">&raquo;</span></div>  -->
 		</div>
+		
+		<div class="w3-card">
+		  <div class="w3-container w3-blue">
+		    <h5>COLLECTIONS LIST</h5>
+		  </div>
+		  <div id="collectionNamesList" class="w3-container w3-text-blue"><!-- <h4>parkingZone</h4><h4>pubdata</h4><h4>pubdata2</h4> --></div>
+		  
+		  <div class="w3-container w3-deep-purple">
+		    <h5>COLLECTIONS INFO</h5>
+		  </div>
+		  <ul class="w3-ul">
+		    <li id="clInfoList">
+		      <!-- 
+		      <p>Name : parkingZone</p>
+		      <p>Count : 3</p>
+		      <p>Size : 104kb</p>
+		      <p>Storage size : 120kb</p>
+		      <p>Indexes : 2</p>
+		      -->
+		    </li>
+		  </ul>
+		  
+		  <div class="w3-container w3-deep-purple w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
+		</div>
+		
 		</div>
 		
 		<div class="w3-threequarter">
@@ -195,16 +220,19 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		                 검색기간설정 : <input type="date" id="sDate" style="width:150px;"> ~ <input type="date" id="eDate" style="width:150px;"> 
 		          &nbsp;&nbsp;
 		          
-		          <input id="radioKey" class="w3-radio" type="radio" name="searchMode" value="key">
-		          <label for="column">컬럼설정 : </label>
-				  <select id="collectionKeys" name="column">
-				  <!-- 
-				    <option value="usa">Name</option>
-				    <option value="usa">Addr</option>
-				    <option value="usa">No</option>
-				  -->
-				  </select>
-				  &nbsp;&nbsp;검색어설정 : <input id="searchText" type="text" style="width:100px;height:30px;" onkeypress="if(event.keyCode==13) {goMongoSearch(); return false;}">
+		          <div id="searchTextForm" style="display:inline">
+			          <input id="radioKey" class="w3-radio" type="radio" name="searchMode" value="key">
+			          <label for="column">컬럼설정 : </label>
+					  <select id="collectionKeys" name="column">
+					  <!-- 
+					    <option value="usa">Name</option>
+					    <option value="usa">Addr</option>
+					    <option value="usa">No</option>
+					  -->
+					  </select>
+					  &nbsp;&nbsp;검색어설정 : <input id="searchText" type="text" style="width:100px;height:30px;" onkeypress="if(event.keyCode==13) {goMongoSearch(); return false;}">
+				  </div>
+				  
 				  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<button class="w3-btn w3-ripple w3-blue w3-padding-small" style="width:100px;height:36px;" onClick="goMongoSearch()">검색</button>
 				  <button id="btnShowMode" class="w3-btn w3-ripple w3-amber w3-padding-small w3-right" style="width:100px;height:36px;" onClick="switchShowMode()">그래프</button>
 		       </h6>
@@ -256,38 +284,6 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 		</div>
       </div>
 		
-    </div>
-    
-    <hr/>
-    
-    <div class="w3-row-padding" style="margin:0 -16px">
-    
-      <div class="w3-quarter">
-      	<div class="w3-card">
-		  <div class="w3-container w3-blue">
-		    <h5>COLLECTIONS LIST</h5>
-		  </div>
-		  <div id="collectionNamesList" class="w3-container w3-text-blue"><!-- <h4>parkingZone</h4><h4>pubdata</h4><h4>pubdata2</h4> --></div>
-		  
-		  <div class="w3-container w3-deep-purple">
-		    <h5>COLLECTIONS INFO</h5>
-		  </div>
-		  <ul class="w3-ul">
-		    <li id="clInfoList">
-		      <!-- 
-		      <p>Name : parkingZone</p>
-		      <p>Count : 3</p>
-		      <p>Size : 104kb</p>
-		      <p>Storage size : 120kb</p>
-		      <p>Indexes : 2</p>
-		      -->
-		    </li>
-		  </ul>
-		  
-		  <div class="w3-container w3-deep-purple w3-xlarge">&nbsp;<span class="w3-right">&nbsp;</span></div>
-		</div>
-      </div>
-      
     </div>
     
   </div>
@@ -544,6 +540,7 @@ $(function() {
 	chart4.render();
 	
 	var chart5 = new CanvasJS.Chart("chartContainer5", {
+		dataPointWidth: 20,
 		theme: "light2",
 		animationEnabled: true,
 		title:{
@@ -610,7 +607,7 @@ $(function() {
 		animationEnabled: true,
 		theme: "light2",
 		title:{
-			text: "기간별 주차율 예측 데이터"
+			text: "주간 점유대수 예측 데이터"
 		},
 		axisY:{
 			includeZero: false
@@ -693,7 +690,7 @@ $(function() {
 	
 	////////////// DB page select date selected check event /////////////////
 	$( "#selGraphByDate" ).change(function() {
-		$( "#selGraphByDate option:selected" ).each(function() {
+		$( "#selGraphByDate option:selected" ).each(function() {			
 			resetChart7();
 			
 			for(var i = 0; i < parsedAggData.length; i++) {
@@ -1126,6 +1123,8 @@ function searchByTerm() {
 				    $('#docList').append(tmpHTML);
 				    
 				    setPageByTerm("pkd", sDateTerm, eDateTerm);
+				    
+				    getAggData("pkd", sDateTerm, eDateTerm);
 	            	break;
             	default :
             		break;
@@ -1146,13 +1145,41 @@ function getAggData(clName, sDateTerm, eDateTerm) {
         cache: false,
         async: false,
         success: function (data) {
-        	//console.log("getAggData : ", data);
-        	parseAggData(clName, data);
+        	if("pkd" == clName) {
+        		parsePKDAggData(data);
+        	} else {
+        		parseAggData(clName, data);	
+        	}
         },
         error: function (e) {
         	console.log("ERROR : ", e);
         }
     });
+}
+
+function parsePKDAggData(data) {
+	var dateCount = new Map();
+	
+	for(var i = 0; i < data.length; i++) {
+		if(dateCount.has(data[i].indate)) {
+			var tempCount = dateCount.get(data[i].indate);
+			tempCount++;
+			dateCount.set(data[i].indate, tempCount);
+		} else {
+			dateCount.set(data[i].indate, 1);
+		}
+	}
+	
+	resetChart7();
+	
+	for(var [key, value] of dateCount) {
+		var indate = key;
+		var count = value;
+		count *= 1;
+		chart7.options.data[0].dataPoints.push({y: count, label:indate});
+	}
+	
+	chart7.render();
 }
 
 function parseAggData(clName, data) {
@@ -1182,8 +1209,6 @@ function parseAggData(clName, data) {
 		parsedAggData.push(tempParsed);
 	}
 	
-	//console.log("parseAggData : ", parsedAggData);
-	
 	setSelectBox(parsedAggData);
 }
 
@@ -1195,7 +1220,7 @@ function setSelectBox(parsedAggData) {
 		var indate = parsedAggData[i].indate;
 		
 		if("" == tmpSavedDate) {
-			tmpHTML = "<option value='" + indate + "'>" + indate + "</option>"
+			tmpHTML = "<option value='" + indate + "'>" + indate + "</option>";
 			$('#selGraphByDate').append(tmpHTML);
 			
 			tmpSavedDate = indate;
@@ -1203,7 +1228,7 @@ function setSelectBox(parsedAggData) {
 			if(tmpSavedDate == indate) {
 				continue;
 			} else {
-				tmpHTML = "<option value='" + indate + "'>" + indate + "</option>"
+				tmpHTML = "<option value='" + indate + "'>" + indate + "</option>";
 				$('#selGraphByDate').append(tmpHTML);
 				
 				tmpSavedDate = indate;
@@ -1540,6 +1565,18 @@ function getCollectionInfo(collectionName) {
 // Select Collection names
 function selectCollect(myObj) {
 	currentSelectedColl = $(myObj).html();
+	
+	switch(currentSelectedColl) {
+	case 'parkingData' :
+		console.log('selected db - parkingData');
+		$('#searchTextForm').css("display", "none");
+		break;
+	default :
+		console.log('selected db - something');
+	$('#searchTextForm').css("display", "inline");
+		break;
+	}
+	
 	getCollectionInfo(currentSelectedColl);
 	getCollectionKeys(currentSelectedColl);
 	

@@ -11,7 +11,13 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.aggregation.Aggregation;
+import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.aggregation.MatchOperation;
+import org.springframework.data.mongodb.core.aggregation.ProjectionOperation;
+import org.springframework.data.mongodb.core.aggregation.SortOperation;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
@@ -24,6 +30,7 @@ import com.mongodb.DBObject;
 import com.mongodb.WriteResult;
 
 import kr.co.ezinfotech.ezcloud.dao.PKDRepo;
+import kr.co.ezinfotech.ezcloud.domain.PKDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PKDDomain;
 import kr.co.ezinfotech.ezcloud.service.PKDService;
 
@@ -191,5 +198,22 @@ public class PKDServiceImpl implements PKDService{
 		query.addCriteria(Criteria.where("in_time").lt(edate).gt(sdate));
 		
 		return mongoTemplate.count(query, PKDDomain.class);
+	}
+
+	// http://www.baeldung.com/spring-data-mongodb-projections-aggregations
+	// https://www.mkyong.com/mongodb/spring-data-mongodb-aggregation-grouping-example/
+	@Override
+	public List<PKDAggregateField> getGroupByDate(String sdate, String edate) {
+		MatchOperation matchStage = Aggregation.match(new Criteria("in_time").lte(edate).gte(sdate));
+		ProjectionOperation projectStage = Aggregation.project().andExpression("substr(in_time, 0, 10)").as("indate")
+				                                                .andExpression("substr(in_time, 10, -1)").as("intime");
+		SortOperation sortStage = Aggregation.sort(Sort.Direction.ASC, "indate");
+		
+		Aggregation aggregation = Aggregation.newAggregation(matchStage, projectStage, sortStage);
+		
+		AggregationResults<PKDAggregateField> output = mongoTemplate.aggregate(aggregation, "parkingData", PKDAggregateField.class);
+		List<PKDAggregateField> result = output.getMappedResults();
+
+		return result;
 	}
 }
