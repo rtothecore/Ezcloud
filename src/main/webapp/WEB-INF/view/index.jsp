@@ -915,6 +915,27 @@ function getIDTermTotalCount(sdateVal, edateVal) {
 	return totalCount;
 }
 
+function getPKDTermTotalCount(sdateVal, edateVal) {
+	var totalCount = 0;
+	
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pkd/term/" + sdateVal + "/" + edateVal + "/tt" ,
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	totalCount = data;
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+	
+	return totalCount;
+}
+
 function setPageByTerm(dbName, sdateVal, edateVal) {
 	var totalC = 0;
 	switch(dbName) {
@@ -926,6 +947,9 @@ function setPageByTerm(dbName, sdateVal, edateVal) {
 			break;
 		case 'id' :
 			totalC = getIDTermTotalCount(sdateVal, edateVal);
+			break;
+		case 'pkd' :
+			totalC = getPKDTermTotalCount(sdateVal, edateVal);
 			break;
 		default :
 			break;
@@ -961,6 +985,9 @@ function searchByTerm() {
 			break;
 		case 'iotData' :
 			urlVal = "/id/";
+			break;
+		case 'parkingData' :
+			urlVal = "/pkd/";
 			break;
 		default :
 			break;
@@ -1080,6 +1107,25 @@ function searchByTerm() {
                 	// get mongodb aggregation data
                 	getAggData("id", sDateTerm, eDateTerm);
                 	
+	            	break;
+	            case 'parkingData' :
+	            	var tmpHTML = "<tr class='w3-green'>" +
+									"<th>관리번호</th>" +
+					  				"<th>차량번호</th>" +
+					  				"<th>출입시간</th>" +
+					  				"<th>출차시간</th>" +
+								   "</tr>";
+				    for(var i = 0; i < data.length; i++) {
+				    	tmpHTML += "<tr>" +
+				    				 "<td>" + data[i].no + "</td>" +
+				    				 "<td>" + data[i].car_no + "</td>" +
+				    				 "<td>" + data[i].in_time + "</td>" +
+				    				 "<td>" + data[i].out_time + "</td>" +
+				    			   "</tr>";
+				    }
+				    $('#docList').append(tmpHTML);
+				    
+				    setPageByTerm("pkd", sDateTerm, eDateTerm);
 	            	break;
             	default :
             		break;
