@@ -384,6 +384,7 @@ var currentDBPage = 0;
 var searchModeVal = 0; // 0: term search, 1: key search
 var currentSelectedColl = "";
 var showMode = 0; // 0: list, 1: graph
+var chart6 = null;
 var chart7 = null;
 var totalDBPage = 0;
 var parsedAggData = [];
@@ -603,7 +604,7 @@ $(function() {
 		chart5.render();
 	}
 	
-	var chart6 = new CanvasJS.Chart("chartContainer6", {
+	chart6 = new CanvasJS.Chart("chartContainer6", {
 		animationEnabled: true,
 		theme: "light2",
 		title:{
@@ -615,6 +616,7 @@ $(function() {
 		data: [{        
 			type: "line",       
 			dataPoints: [
+				/*
 				{ y: 450 },
 				{ y: 414},
 				{ y: 520, indexLabel: "highest",markerColor: "red", markerType: "triangle" },
@@ -627,10 +629,13 @@ $(function() {
 				{ y: 500 },
 				{ y: 480 },
 				{ y: 510 }
+				*/
 			]
 		}]
 	});
 	chart6.render();
+	
+	getPredictData();
 	
 	chart7 = new CanvasJS.Chart("chartContainer7", {
 		width:950,
@@ -711,6 +716,42 @@ $(function() {
 	});
 	
 });
+
+function getPredictData() {
+	// "/pkd/getPredict"
+	$.ajax({
+        type: "GET",
+        contentType: "application/json",
+        url: "/pkd/getPredict",
+        dataType: 'json',
+        cache: false,
+        async: false,
+        success: function (data) {
+        	// console.log("SUCCESS : ", data.nextWeek);
+			var weekDate = [];
+			
+			for(var j = 0; j < 7; j++) {
+				var today = new Date();
+				today.setDate(today.getDate() + (j+1));
+				var dd = today.getDate();
+				var mm = today.getMonth() + 1; 
+				var yyyy = today.getFullYear();
+				
+				weekDate[j] = yyyy + "." + mm + "." + dd;
+			}
+        	
+        	for(var i = 0; i < data.nextWeek.length; i++) {
+        		tmpData = data.nextWeek[i].cars;
+        		tmpData *= 1;
+        		chart6.options.data[0].dataPoints.push({y: tmpData, label:weekDate[i]});
+        	}
+        	chart6.render();
+        },
+        error: function (e) {
+        	console.log("ERROR : ", e);
+        }
+    });
+}
 
 function getData() {
 	$("body").mLoading({
@@ -1172,12 +1213,13 @@ function parsePKDAggData(data) {
 	
 	resetChart7();
 	
-	for(var [key, value] of dateCount) {
-		var indate = key;
-		var count = value;
-		count *= 1;
-		chart7.options.data[0].dataPoints.push({y: count, label:indate});
-	}
+	dateCount.forEach(function (item, key, mapObj) {
+		// console.log(item + ", " + key);
+	    var indate = key;
+	    var count = item;
+	    item *= 1;
+	    chart7.options.data[0].dataPoints.push({y: count, label:indate});
+	}); 
 	
 	chart7.render();
 }

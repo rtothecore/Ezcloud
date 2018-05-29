@@ -19,6 +19,7 @@ import kr.co.ezinfotech.ezcloud.domain.GPD;
 import kr.co.ezinfotech.ezcloud.domain.IDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PKDAggregateField;
 import kr.co.ezinfotech.ezcloud.domain.PKDDomain;
+import kr.co.ezinfotech.ezcloud.domain.PPS;
 import kr.co.ezinfotech.ezcloud.domain.PZDomain;
 import kr.co.ezinfotech.ezcloud.service.PKDService;
 import kr.co.ezinfotech.ezcloud.service.PZService;
@@ -32,6 +33,14 @@ public class ParkingDataController {
 	
 	@Autowired
 	private PKDService pkdService;
+	
+	// 제주대학교 딥러닝 서버 호출
+	@GetMapping("/pkd/getPredict")
+	public PPS getPredict() {
+		RestTemplate restTemplate = new RestTemplate();
+		String url = "http://35.231.204.227:3000/PREDICT/NEXTWEEK";
+		return restTemplate.getForObject(url, PPS.class);
+	}
 	
 	// 제주대학교 딥러닝 서버에서 호출
 	@GetMapping("/pkd/getManage/{startDate}/{endDate}")
