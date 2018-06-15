@@ -174,7 +174,9 @@ public class PZServiceImpl implements PZService{
 	public List<PZDomain> findByDateTerm(String sdate, String edate, String page) {
 		Query query = new Query();
 		final Pageable pageableRequest = new PageRequest(Integer.parseInt(page), 10);
-		query.addCriteria(Criteria.where("data_date").lt(edate).gt(sdate));
+		sdate += " 00:00:00";
+		edate += " 23:59:59";
+		query.addCriteria(Criteria.where("data_date").lte(edate).gte(sdate));
 		query.with(pageableRequest);
 		
 		return mongoTemplate.find(query, PZDomain.class);

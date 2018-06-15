@@ -34,6 +34,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
 <!-- Sidebar/menu -->
 <nav class="w3-sidebar w3-collapse w3-white w3-animate-left" style="z-index:3;width:300px;" id="mySidebar"><br>
+  <!--
   <div class="w3-container w3-row">
     <div class="w3-col s8 w3-bar">
       <span>Welcome, <strong>Mike</strong></span><br>
@@ -43,6 +44,7 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
     </div>
   </div>
   <hr>
+   -->
   <div class="w3-container">
     <h5>Dashboard</h5>
   </div>
@@ -113,8 +115,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">
+    <!-- 
     <h4>FOOTER</h4>
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    -->
+    <p>Copyright © Ezinfotech Corp. All rights reserved.</p>
   </footer>
 
   <!-- End page content -->
@@ -145,8 +150,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">
+    <!-- 
     <h4>FOOTER</h4>
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    -->
+    <p>Copyright © Ezinfotech Corp. All rights reserved.</p>
   </footer>
 
   <!-- End page content -->
@@ -290,8 +298,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">
+    <!-- 
     <h4>FOOTER</h4>
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    -->
+    <p>Copyright © Ezinfotech Corp. All rights reserved.</p>
   </footer>
 
   <!-- End page content -->
@@ -343,8 +354,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">
+    <!-- 
     <h4>FOOTER</h4>
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    -->
+    <p>Copyright © Ezinfotech Corp. All rights reserved.</p>
   </footer>
 
   <!-- End page content -->
@@ -368,8 +382,11 @@ html,body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
 
   <!-- Footer -->
   <footer class="w3-container w3-padding-16 w3-light-grey">
+    <!-- 
     <h4>FOOTER</h4>
     <p>Powered by <a href="https://www.w3schools.com/w3css/default.asp" target="_blank">w3.css</a></p>
+    -->
+    <p>Copyright © Ezinfotech Corp. All rights reserved.</p>
   </footer>
 
   <!-- End page content -->
@@ -616,7 +633,6 @@ $(function() {
 		data: [{        
 			type: "line",       
 			dataPoints: [
-				/*
 				{ y: 450 },
 				{ y: 414},
 				{ y: 520, indexLabel: "highest",markerColor: "red", markerType: "triangle" },
@@ -629,13 +645,12 @@ $(function() {
 				{ y: 500 },
 				{ y: 480 },
 				{ y: 510 }
-				*/
 			]
 		}]
 	});
 	chart6.render();
 	
-	getPredictData();
+	// getPredictData();
 	
 	chart7 = new CanvasJS.Chart("chartContainer7", {
 		width:950,
@@ -1219,6 +1234,7 @@ function parsePKDAggData(data) {
 	    var count = item;
 	    item *= 1;
 	    chart7.options.data[0].dataPoints.push({y: count, label:indate});
+	    chart7.options.data[0].legendText = "출입대수"
 	}); 
 	
 	chart7.render();
@@ -1604,6 +1620,17 @@ function getCollectionInfo(collectionName) {
     });
 }
 
+// show list on select collection names
+function switchShowMode0() {
+	if(0 == showMode) {	// show list
+	} else {			// show graph
+		$('#divForList').css("display", "block");
+		$('#divForGraph').css("display", "none");
+		$('#btnShowMode').html("그래프");
+		showMode = 0;
+	}
+}
+
 // Select Collection names
 function selectCollect(myObj) {
 	currentSelectedColl = $(myObj).html();
@@ -1612,10 +1639,12 @@ function selectCollect(myObj) {
 	case 'parkingData' :
 		console.log('selected db - parkingData');
 		$('#searchTextForm').css("display", "none");
+		switchShowMode0()
 		break;
 	default :
 		console.log('selected db - something');
-	$('#searchTextForm').css("display", "inline");
+		$('#searchTextForm').css("display", "inline");
+		switchShowMode0()
 		break;
 	}
 	
@@ -1627,7 +1656,12 @@ function selectCollect(myObj) {
     
     $('#docList').children().remove();
     
-    $('#currentPage').html((currentDBPage + 1) + "/" + totalDBPage);
+	///////////// ADDED ///////////////////
+    $('#sDate').val("");
+    $('#eDate').val("");
+    resetChart7();
+    // $('#currentPage').html((currentDBPage + 1) + "/" + totalDBPage);
+    $('#currentPage').html("");
 }
 
 // Get Collection names

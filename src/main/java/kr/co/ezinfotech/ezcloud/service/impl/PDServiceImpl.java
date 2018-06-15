@@ -172,7 +172,9 @@ public class PDServiceImpl implements PDService{
 	public List<PDDomain> findByDateTerm(String sdate, String edate, String page) {
 		Query query = new Query();
 		final Pageable pageableRequest = new PageRequest(Integer.parseInt(page), 10);
-		query.addCriteria(Criteria.where("indate").lt(edate).gt(sdate));
+		sdate += " 00:00:00";
+		edate += " 23:59:59";
+		query.addCriteria(Criteria.where("indate").lte(edate).gte(sdate));
 		query.with(pageableRequest);
 		
 		return mongoTemplate.find(query, PDDomain.class);
